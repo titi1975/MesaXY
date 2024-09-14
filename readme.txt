@@ -1,0 +1,1 @@
+Basicamente, funciona assim: quando vocês forem mexer na pasta, criem a versão de vocês aqui e, no final, façam o commit do código.
