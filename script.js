@@ -1,3 +1,4 @@
+// Configuração do canvas
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let desenhando = false;
@@ -31,9 +32,24 @@ function limparCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// Exibe uma mensagem de confirmação ao clicar no botão "Confirmar"
+// Executa o script Python ao clicar no botão "Confirmar"
 document.getElementById('confirmButton').addEventListener('click', function () {
     console.log('Desenho confirmado!');
+
+    fetch('/executar-python', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ script: 'amostragem.py' })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Script executado:', data);
+    })
+    .catch(error => {
+        console.error('Erro ao executar o script:', error);
+    });
 });
 
 // Adiciona os eventos ao canvas
