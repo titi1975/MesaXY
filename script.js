@@ -34,18 +34,16 @@ function limparCanvas() {
 
 // Executa o script Python ao clicar no botão "Confirmar"
 document.getElementById('confirmButton').addEventListener('click', function () {
-    console.log('Desenho confirmado!');
-
     fetch('/executar-python', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ script: 'amostragem.py' })
+        headers: { 'Content-Type': 'application/json' }
     })
     .then(response => response.json())
     .then(data => {
         console.log('Script executado:', data);
+        if (!data.erro) {
+            window.location.href = '/download';
+        }
     })
     .catch(error => {
         console.error('Erro ao executar o script:', error);
