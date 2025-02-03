@@ -1,0 +1,71 @@
+#define EN        8  
+
+//Direction pin
+#define X_DIR     5 
+#define Y_DIR     6
+
+//Step pin
+#define X_STP     2
+#define Y_STP     3 
+ 
+
+
+//DRV8825
+int delayTime = 30; //Delay between each pause (uS)
+int stps = 6400;// Steps to move
+
+
+void step(boolean dir, byte dirPin, byte stepperPin, int steps)
+
+{
+
+  digitalWrite(dirPin, dir);
+
+  delay(100);
+
+  for (int i = 0; i < steps; i++) {
+
+    digitalWrite(stepperPin, HIGH);
+
+    delayMicroseconds(delayTime); 
+
+    digitalWrite(stepperPin, LOW);
+
+    delayMicroseconds(delayTime); 
+
+  }
+
+}
+
+void setup(){
+
+  pinMode(X_DIR, OUTPUT); pinMode(X_STP, OUTPUT);
+
+  pinMode(Y_DIR, OUTPUT); pinMode(Y_STP, OUTPUT);
+
+  pinMode(EN, OUTPUT);
+
+  digitalWrite(EN, HIGH);
+
+}
+
+void Draw(int[][] coord){
+
+  step(false, X_DIR, X_STP, coord[0][0]); //X, Clockwise
+  step(false, Y_DIR, Y_STP, coord[0][1]); //Y, Clockwise
+  
+  int len = sizeof(coord)/(2*sizeof(int));
+  for(int i = 1; i < len; i++){
+    //not sure if coord can be negative
+    step(false, X_DIR, X_STP, (coord[i][0] - coord[i-1][0])); //X, Clockwise
+    step(false, Y_DIR, Y_STP, (coord[i][1] - coord[i-1][1]); //Y, Clockwise
+  }
+
+}
+void loop(){
+
+  //coord goes here:
+
+  Draw(coord);
+
+}
